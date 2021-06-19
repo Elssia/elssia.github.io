@@ -1,394 +1,85 @@
-Vditor 是一款**所见即所得**编辑器，支持 *Markdown*。
+---
+title: Azure 物联网 (IoT) 简介
+description: 简单介绍 Azure IoT 和 IoT 服务的基础知识，包括说明如何使用 IoT 的示例。
+author: dominicbetts
+ms.service: iot-fundamentals
+services: iot-fundamentals
+ms.topic: overview
+ms.date: 01/15/2020
+ms.author: dobett
+ms.custom:
+- amqp
+- mqtt
+ms.openlocfilehash: d2afd88500801f1e2b1e4da5a1e267bddfa69fc7
+ms.sourcegitcommit: 6a350f39e2f04500ecb7235f5d88682eb4910ae8
+ms.translationtype: HT
+ms.contentlocale: zh-CN
+ms.lasthandoff: 12/01/2020
+ms.locfileid: "96453017"
+---
+# <a name="what-is-azure-internet-of-things-iot"></a>Azure 物联网 (IoT) 是什么？
 
-* 不熟悉 Markdown 可使用工具栏或快捷键进行排版
-* 熟悉 Markdown 可直接排版，也可切换为分屏预览
+Azure 物联网 (IoT) 是 Microsoft 托管的云服务的集合，这些服务用于连接、监视和控制数十亿项 IoT 资产。 更简单地讲，IoT 解决方案由一个或多个 IoT 设备构成，这些设备与云中托管的一个或多个后端服务通信。 
 
-更多细节和用法请参考 [Vditor - 浏览器端的 Markdown 编辑器](https://ld246.com/article/1549638745630)，同时也欢迎向我们提出建议或报告问题，谢谢 ❤️
+## <a name="iot-devices"></a>IoT 设备
 
-## 教程
+IoT 设备通常包括一块装有传感器的电路板，这些传感器使用 WiFi 连接到 Internet。 例如：
 
-这是一篇讲解如何正确使用 **Markdown** 的排版示例，学会这个很有必要，能让你的文章有更佳清晰的排版。
+* 远程油泵上的压力传感器。
+* 空调设备中的温度和湿度传感器。
+* 电梯中的加速计。
+* 房间中的感测器。
 
-> 引用文本：Markdown is a text formatting syntax inspired
+不同的制造商提供多种设备用于构建解决方案。 有关经认证可与 Azure IoT 中心配合使用的设备列表，请参阅 [Azure IoT 认证设备目录](https://catalog.azureiotsolutions.com/alldevices)。 对于原型制作，可以使用 [MXChip IoT DevKit](https://microsoft.github.io/azure-iot-developer-kit/) 或 [Raspberry Pi](https://www.raspberrypi.org/) 等设备。 Devkit 包含内置的温度、压力、湿度传感器，以及陀螺仪、加速度传感器和磁力计。 Raspberry Pi 允许连接多种不同类型的传感器。 
 
-## 语法指导
+Microsoft 提供开源[设备 SDK](../iot-hub/iot-hub-devguide-sdks.md) 用于构建在设备上运行的应用。 这些 [SDK 可以简化并加速](https://azure.microsoft.com/blog/benefits-of-using-the-azure-iot-sdks-in-your-azure-iot-solution/) IoT 解决方案的开发。
 
-### 普通内容
+## <a name="communication"></a>通信
 
-这段内容展示了在内容里面一些排版格式，比如：
+通常，IoT 设备将来自传感器的遥测数据发送到云中的后端服务。 但是，也可以实现其他类型的通信，例如，在后端服务中将命令发送到设备。 下面是设备到云和云到设备的通信的一些示例：
 
-- **加粗** -`**加粗**`
-- *倾斜* -`*倾斜*`
-- ~~删除线~~ -`~~删除线~~`
-- `Code 标记` -`` `Code 标记` ``
-- [超级链接](https://ld246.com) -`[超级链接](https://ld246.com)`
-- [username@gmail.com](mailto:username@gmail.com) -`[username@gmail.com](mailto:username@gmail.com)`
+* 流动冷藏货车每隔 5 分钟向 IoT 中心发送温度数据。 
 
-### 提及用户
+* 后端服务向设备发送一条命令，以更改设备发送遥测数据的频率来帮助诊断问题。 
 
-@Vanessa 通过 `@User` 可以在内容中提及用户，被提及的用户将会收到系统通知。
+* 设备根据其传感器读数值发送警报。 例如，监视化学工厂中间歇式反应器的设备在温度超出特定值时发送警报。
 
-> NOTE:
->
-> 1. @用户名之后需要有一个空格
-> 2. 新手没有艾特的功能权限
+* 设备发送信息并在仪表板上显示，供操作人员查看。 例如，精炼厂的控制室可以显示每个管道中的温度、压力和流量，使操作员能够监视设施。 
 
-### 表情符号 Emoji
+[IoT 设备 SDK](../iot-hub/iot-hub-devguide-sdks.md) 和 IoT 中心支持常用的[通信协议](../iot-hub/iot-hub-devguide-protocols.md)，例如 HTTP、MQTT 和 AMQP。
 
-支持大部分标准的表情符号，可使用输入法直接输入，也可手动输入字符格式。通过输入 `:` 触发自动完成，可在个人设置中[设置常用表情](https://ld246.com/settings/function)。
+相比于其他客户端（例如浏览器和移动应用），IoT 设备有不同的特征。 设备 SDK 可帮助解决以安全可靠的方式将设备连接到后端服务的难题。  具体而言，IoT 设备具有以下特征：
 
-#### 一些表情例子
+* 通常是无人操作的嵌入式系统（与电话不同）。
+* 可以部署到物理访问昂贵的远程位置。
+* 可能只能通过解决方案后端来访问。
+* 能力和处理资源可能都有限。
+* 网络连接可能不稳定、缓慢或昂贵。
+* 可能需要使用专属、自定义或行业特定的应用程序协议。
 
-😄 😆 😵 😭 😰 😅  😢 😤 😍 😌
-👍 👎 💯 👏 🔔 🎁 ❓ 💣 ❤️ ☕️ 🌀 🙇 💋 🙏 💢
+## <a name="back-end-services"></a>后端服务 
 
-### 大标题 - Heading 3
+在 IoT 解决方案中，后端服务提供如下功能：
 
-你可以选择使用 H1 至 H6，使用 ##(N) 打头。建议帖子或回帖中的顶级标题使用 Heading 3，不要使用 1 或 2，因为 1 是系统站点级，2 是帖子标题级。
+* 接收大规模的来自设备的遥测数据，并确定如何处理和存储该数据。
+* 通过分析遥测数据为用户提供见解，不管是实时的还是事后的。
+* 从云向特定设备发送命令。 
+* 预配设备并控制哪些设备可以连接到基础结构。
+* 控制设备状态并监视设备活动。
+* 管理设备上安装的固件。
 
-> NOTE: 别忘了 # 后面需要有空格！
+例如，在输油站的远程监视解决方案中，云后端使用来自油泵的遥测数据来识别异常行为。 当后端服务识别到异常时，可以自动将一条命令发回给设备，以采取纠正措施。 此过程在设备和云之间产生一个自动反馈循环，大大提高了解决方案效率。
 
-#### Heading 4
+## <a name="azure-iot-examples"></a>Azure IoT 示例
 
-##### Heading 5
+有关演示组织如何使用 Azure IoT 的现实示例，请参阅 [Microsoft IoT 技术案例研究](https://microsoft.github.io/techcasestudies/#technology=IoT&sortBy=featured)。 
 
-###### Heading 6
+有关 IoT 体系结构的深入介绍，请参阅 [Microsoft Azure IoT 参考体系结构](/azure/architecture/reference-architectures/iot)。
 
-### 图片
+## <a name="next-steps"></a>后续步骤
 
-```
-![alt 文本](http://image-path.png)
-![alt 文本](http://image-path.png "图片 Title 值")
-```
+如果需要一些使用过的实际商业用例和体系结构，请参阅 [Microsoft Azure IoT 技术案例研究](https://microsoft.github.io/techcasestudies/#technology=IoT&sortBy=featured)。
 
-支持复制粘贴直接上传。
+如果需要一些可以通过 IoT DevKit 来试用的示例项目，请参阅 [IoT DevKit 项目目录](https://microsoft.github.io/azure-iot-developer-kit/docs/projects/)。 
 
-### 代码块
-
-#### 普通
-
-```
-*emphasize*    **strong**
-_emphasize_    __strong__
-var a = 1
-```
-
-#### 语法高亮支持
-
-如果在 ``` 后面跟随语言名称，可以有语法高亮的效果哦，比如:
-
-##### 演示 Go 代码高亮
-
-```go
-package main
-
-import "fmt"
-
-func main() {
-	fmt.Println("Hello, 世界")
-}
-```
-
-##### 演示 Java 高亮
-
-```java
-public class HelloWorld {
-
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-
-}
-```
-
-> Tip: 语言名称支持下面这些: `ruby`, `python`, `js`, `html`, `erb`, `css`, `coffee`, `bash`, `json`, `yml`, `xml` ...
-
-### 有序、无序、任务列表
-
-#### 无序列表
-
-- Java
-  - Spring
-    - IoC
-    - AOP
-- Go
-  - gofmt
-  - Wide
-- Node.js
-  - Koa
-  - Express
-
-#### 有序列表
-
-1. Node.js
-   1. Express
-   2. Koa
-   3. Sails
-2. Go
-   1. gofmt
-   2. Wide
-3. Java
-   1. Latke
-   2. IDEA
-
-#### 任务列表
-
-- [X] 发布 Sym
-- [X] 发布 Solo
-- [ ] 预约牙医
-
-### 表格
-
-如果需要展示数据什么的，可以选择使用表格。
-
-| header 1 | header 2 |
-| -------- | -------- |
-| cell 1   | cell 2   |
-| cell 3   | cell 4   |
-| cell 5   | cell 6   |
-
-### 隐藏细节
-
-<details>
-<summary>这里是摘要部分。</summary>
-这里是细节部分。
-</details>
-
-### 段落
-
-空行可以将内容进行分段，便于阅读。（这是第一段）
-
-使用空行在 Markdown 排版中相当重要。（这是第二段）
-
-### 链接引用
-
-[链接文本][链接标识]
-
-[链接标识]: https://b3log.org
-```
-[链接文本][链接标识]
-
-[链接标识]: https://b3log.org
-```
-
-### 数学公式
-
-多行公式块：
-
-$$
-\frac{1}{
-  \Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{
-  \frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {
-    1+\frac{e^{-6\pi}}
-    {1+\frac{e^{-8\pi}}{1+\cdots}}
-  }
-}
-$$
-
-行内公式：
-
-公式 $a^2 + b^2 = \color{red}c^2$ 是行内。
-
-### 脑图
-
-```mindmap
-- 教程
-- 语法指导
-  - 普通内容
-  - 提及用户
-  - 表情符号 Emoji
-    - 一些表情例子
-  - 大标题 - Heading 3
-    - Heading 4
-      - Heading 5
-        - Heading 6
-  - 图片
-  - 代码块
-    - 普通
-    - 语法高亮支持
-      - 演示 Go 代码高亮
-      - 演示 Java 高亮
-  - 有序、无序、任务列表
-    - 无序列表
-    - 有序列表
-    - 任务列表
-  - 表格
-  - 隐藏细节
-  - 段落
-  - 链接引用
-  - 数学公式
-  - 脑图
-  - 流程图
-  - 时序图
-  - 甘特图
-  - 图表
-  - 五线谱
-  - Graphviz
-  - 多媒体
-  - 脚注
-- 快捷键
-```
-
-### 流程图
-
-```mermaid
-graph TB
-    c1-->a2
-    subgraph one
-    a1-->a2
-    end
-    subgraph two
-    b1-->b2
-    end
-    subgraph three
-    c1-->c2
-    end
-```
-
-### 时序图
-
-```mermaid
-sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    loop Every minute
-        John-->>Alice: Great!
-    end
-```
-
-### 甘特图
-
-```mermaid
-gantt
-    title A Gantt Diagram
-    dateFormat  YYYY-MM-DD
-    section Section
-    A task           :a1, 2019-01-01, 30d
-    Another task     :after a1  , 20d
-    section Another
-    Task in sec      :2019-01-12  , 12d
-    another task      : 24d
-```
-
-### 图表
-
-```echarts
-{
-  "title": { "text": "最近 30 天" },
-  "tooltip": { "trigger": "axis", "axisPointer": { "lineStyle": { "width": 0 } } },
-  "legend": { "data": ["帖子", "用户", "回帖"] },
-  "xAxis": [{
-      "type": "category",
-      "boundaryGap": false,
-      "data": ["2019-05-08","2019-05-09","2019-05-10","2019-05-11","2019-05-12","2019-05-13","2019-05-14","2019-05-15","2019-05-16","2019-05-17","2019-05-18","2019-05-19","2019-05-20","2019-05-21","2019-05-22","2019-05-23","2019-05-24","2019-05-25","2019-05-26","2019-05-27","2019-05-28","2019-05-29","2019-05-30","2019-05-31","2019-06-01","2019-06-02","2019-06-03","2019-06-04","2019-06-05","2019-06-06","2019-06-07"],
-      "axisTick": { "show": false },
-      "axisLine": { "show": false }
-  }],
-  "yAxis": [{ "type": "value", "axisTick": { "show": false }, "axisLine": { "show": false }, "splitLine": { "lineStyle": { "color": "rgba(0, 0, 0, .38)", "type": "dashed" } } }],
-  "series": [
-    {
-      "name": "帖子", "type": "line", "smooth": true, "itemStyle": { "color": "#d23f31" }, "areaStyle": { "normal": {} }, "z": 3,
-      "data": ["18","14","22","9","7","18","10","12","13","16","6","9","15","15","12","15","8","14","9","10","29","22","14","22","9","10","15","9","9","15","0"]
-    },
-    {
-      "name": "用户", "type": "line", "smooth": true, "itemStyle": { "color": "#f1e05a" }, "areaStyle": { "normal": {} }, "z": 2,
-      "data": ["31","33","30","23","16","29","23","37","41","29","16","13","39","23","38","136","89","35","22","50","57","47","36","59","14","23","46","44","51","43","0"]
-    },
-    {
-      "name": "回帖", "type": "line", "smooth": true, "itemStyle": { "color": "#4285f4" }, "areaStyle": { "normal": {} }, "z": 1,
-      "data": ["35","42","73","15","43","58","55","35","46","87","36","15","44","76","130","73","50","20","21","54","48","73","60","89","26","27","70","63","55","37","0"]
-    }
-  ]
-}
-```
-
-### 五线谱
-
-```abc
-X: 24
-T: Clouds Thicken
-C: Paul Rosen
-S: Copyright 2005, Paul Rosen
-M: 6/8
-L: 1/8
-Q: 3/8=116
-R: Creepy Jig
-K: Em
-|:"Em"EEE E2G|"C7"_B2A G2F|"Em"EEE E2G|\
-"C7"_B2A "B7"=B3|"Em"EEE E2G|
-"C7"_B2A G2F|"Em"GFE "D (Bm7)"F2D|\
-1"Em"E3-E3:|2"Em"E3-E2B|:"Em"e2e gfe|
-"G"g2ab3|"Em"gfeg2e|"D"fedB2A|"Em"e2e gfe|\
-"G"g2ab3|"Em"gfe"D"f2d|"Em"e3-e3:|
-```
-
-### Graphviz
-
-```graphviz
-digraph finite_state_machine {
-    rankdir=LR;
-    size="8,5"
-    node [shape = doublecircle]; S;
-    node [shape = point ]; qi
-
-    node [shape = circle];
-    qi -> S;
-    S  -> q1 [ label = "a" ];
-    S  -> S  [ label = "a" ];
-    q1 -> S  [ label = "a" ];
-    q1 -> q2 [ label = "ddb" ];
-    q2 -> q1 [ label = "b" ];
-    q2 -> q2 [ label = "b" ];
-}
-```
-
-### Flowchart
-
-```flowchart
-st=>start: Start
-op=>operation: Your Operation
-cond=>condition: Yes or No?
-e=>end
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
-
-### 多媒体
-
-支持 v.qq.com，youtube.com，youku.com，coub.com，facebook.com/video，dailymotion.com，.mp4，.m4v，.ogg，.ogv，.webm，.mp3，.wav 链接解析
-
-https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html
-
-### 脚注
-
-这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。
-
-[^1]: 第一个脚注定义。
-    
-[^bignote]: 脚注定义可使用多段内容。
-    
-       缩进对齐的段落包含在这个脚注定义内。
-    
-       ```
-       可以使用代码块。
-       ```
-       还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。
-    
-```
-这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。
-[^1]: 第一个脚注定义。
-[^bignote]: 脚注定义可使用多段内容。
-
-    缩进对齐的段落包含在这个脚注定义内。
-
-    ```
-    可以使用代码块。
-    ```
-
-    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。
-```
-
-## 快捷键
-
-我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://ld246.com/article/1474030007391)（或者按 "`?` "😼）
+有关不同服务的更详细说明及其用法，请参阅 [Azure IoT 服务和技术](iot-services-and-technologies.md)。
