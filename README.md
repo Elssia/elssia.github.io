@@ -1,85 +1,56 @@
 ---
-title: Azure 物联网 (IoT) 简介
-description: 简单介绍 Azure IoT 和 IoT 服务的基础知识，包括说明如何使用 IoT 的示例。
-author: dominicbetts
-ms.service: iot-fundamentals
-services: iot-fundamentals
-ms.topic: overview
-ms.date: 01/15/2020
-ms.author: dobett
-ms.custom:
-- amqp
-- mqtt
-ms.openlocfilehash: d2afd88500801f1e2b1e4da5a1e267bddfa69fc7
-ms.sourcegitcommit: 6a350f39e2f04500ecb7235f5d88682eb4910ae8
+title: include 文件
+description: include 文件
+services: cosmos-db
+author: SnehaGunda
+ms.author: sngun
+ms.service: cosmos-db
+ms.topic: include
+ms.date: 08/19/2020
+ms.custom: include file
+ms.openlocfilehash: efdd4a065e1eab55f5af420585a44754d42a43e9
+ms.sourcegitcommit: a43a59e44c14d349d597c3d2fd2bc779989c71d7
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 12/01/2020
-ms.locfileid: "96453017"
+ms.lasthandoff: 11/25/2020
+ms.locfileid: "96010333"
 ---
-# <a name="what-is-azure-internet-of-things-iot"></a>Azure 物联网 (IoT) 是什么？
+1. 在 Azure 门户菜单或主页中，选择“创建资源” 。
 
-Azure 物联网 (IoT) 是 Microsoft 托管的云服务的集合，这些服务用于连接、监视和控制数十亿项 IoT 资产。 更简单地讲，IoT 解决方案由一个或多个 IoT 设备构成，这些设备与云中托管的一个或多个后端服务通信。 
+1. 在“新建”页面中搜索“Azure Cosmos DB”，然后选择它。 
 
-## <a name="iot-devices"></a>IoT 设备
+1. 在“Azure Cosmos DB”页上，选择“创建”。
 
-IoT 设备通常包括一块装有传感器的电路板，这些传感器使用 WiFi 连接到 Internet。 例如：
+1. 在“创建 Azure Cosmos DB 帐户”页上，输入新 Azure Cosmos 帐户的基本设置。 
 
-* 远程油泵上的压力传感器。
-* 空调设备中的温度和湿度传感器。
-* 电梯中的加速计。
-* 房间中的感测器。
+    |设置|值|说明 |
+    |---|---|---|
+    |订阅|订阅名称|选择要用于此 Azure Cosmos 帐户的 Azure 订阅。 |
+    |资源组|资源组名称|选择一个资源组，或者选择“新建”，然后输入新资源组的唯一名称。 |
+    |帐户名|唯一的名称|输入标识此 Azure Cosmos 帐户的名称。 由于 documents.azure.com 将追加到所提供的名称以创建 URI，因此，请使用唯一的名称。<br><br>名称只能包含小写字母、数字和连字符 (-)。 它的长度必须介于 3-44 个字符之间。|
+    |API|要创建的帐户的类型|选择“Core (SQL)”，以便使用 SQL 语法创建文档数据库并进行查询。 <br><br>API 确定要创建的帐户的类型。 Azure Cosmos DB 提供五种 API：适用于文档数据的 Core (SQL) 和 MongoDB、适用于图形数据的 Gremlin、Azure 表和 Cassandra。 目前，你必须为每种 API 创建单独的帐户。 |
+    |容量模式|预配吞吐量或无服务器|选择“预配吞吐量”以在[预配吞吐量](../articles/cosmos-db/set-throughput.md)模式下创建帐户。 选择“无服务器”以在[无服务器](../articles/cosmos-db/serverless.md)模式下创建帐户。|
+    |应用免费层折扣|应用或不应用|使用 Azure Cosmos DB 免费层，你将在帐户中获得每秒的前 400 RU 免费的吞吐量和 5 GB 的免费存储。 了解[免费层](https://azure.microsoft.com/pricing/details/cosmos-db/)的详细信息。|
+    |位置|离用户最近的区域|选择用于托管 Azure Cosmos DB 帐户的地理位置。 使用离用户最近的位置，使他们能够以最快的速度访问数据。|
+    |帐户类型|生产或非生产|如果帐户将用于生产工作负荷，请选择“生产”。 如果帐户将用于非生产环境（例如开发、测试、QA 或过渡），请选择“非生产”。 这是一个 Azure 资源标记设置，用于调整门户体验，但不会影响基础 Azure Cosmos DB 帐户。 可以随时更改此值。|
 
-不同的制造商提供多种设备用于构建解决方案。 有关经认证可与 Azure IoT 中心配合使用的设备列表，请参阅 [Azure IoT 认证设备目录](https://catalog.azureiotsolutions.com/alldevices)。 对于原型制作，可以使用 [MXChip IoT DevKit](https://microsoft.github.io/azure-iot-developer-kit/) 或 [Raspberry Pi](https://www.raspberrypi.org/) 等设备。 Devkit 包含内置的温度、压力、湿度传感器，以及陀螺仪、加速度传感器和磁力计。 Raspberry Pi 允许连接多种不同类型的传感器。 
+    > [!NOTE]
+    > 每个 Azure 订阅最多可以有一个免费层 Azure Cosmos DB 帐户，并且你必须在创建帐户时选择加入使用。 如果看不到用于应用免费层折扣的选项，这意味着订阅中的另一个帐户已启用免费层。
+   
+    > [!NOTE]
+    > 如果选择“无服务器”作为“容量模式”，则以下选项不可用 ：
+    > - 应用免费层折扣
+    > - 异地冗余
+    > - 多区域写入
+    
+    :::image type="content" source="./media/cosmos-db-create-dbaccount/azure-cosmos-db-create-new-account-detail.png" alt-text="Azure Cosmos DB 的“新建帐户”页面":::
 
-Microsoft 提供开源[设备 SDK](../iot-hub/iot-hub-devguide-sdks.md) 用于构建在设备上运行的应用。 这些 [SDK 可以简化并加速](https://azure.microsoft.com/blog/benefits-of-using-the-azure-iot-sdks-in-your-azure-iot-solution/) IoT 解决方案的开发。
+1. 选择“查看 + 创建”。 可以跳过“网络”和“标记”部分 。
 
-## <a name="communication"></a>通信
+1. 检查帐户设置，然后选择“创建”。 创建帐户需要几分钟时间。 等待门户页显示“你的部署已完成”消息。 
 
-通常，IoT 设备将来自传感器的遥测数据发送到云中的后端服务。 但是，也可以实现其他类型的通信，例如，在后端服务中将命令发送到设备。 下面是设备到云和云到设备的通信的一些示例：
+    :::image type="content" source="./media/cosmos-db-create-dbaccount/azure-cosmos-db-account-created.png" alt-text="Azure 门户“通知”窗格":::
 
-* 流动冷藏货车每隔 5 分钟向 IoT 中心发送温度数据。 
+1. 选择“转到资源”，转到 Azure Cosmos DB 帐户页。 
 
-* 后端服务向设备发送一条命令，以更改设备发送遥测数据的频率来帮助诊断问题。 
-
-* 设备根据其传感器读数值发送警报。 例如，监视化学工厂中间歇式反应器的设备在温度超出特定值时发送警报。
-
-* 设备发送信息并在仪表板上显示，供操作人员查看。 例如，精炼厂的控制室可以显示每个管道中的温度、压力和流量，使操作员能够监视设施。 
-
-[IoT 设备 SDK](../iot-hub/iot-hub-devguide-sdks.md) 和 IoT 中心支持常用的[通信协议](../iot-hub/iot-hub-devguide-protocols.md)，例如 HTTP、MQTT 和 AMQP。
-
-相比于其他客户端（例如浏览器和移动应用），IoT 设备有不同的特征。 设备 SDK 可帮助解决以安全可靠的方式将设备连接到后端服务的难题。  具体而言，IoT 设备具有以下特征：
-
-* 通常是无人操作的嵌入式系统（与电话不同）。
-* 可以部署到物理访问昂贵的远程位置。
-* 可能只能通过解决方案后端来访问。
-* 能力和处理资源可能都有限。
-* 网络连接可能不稳定、缓慢或昂贵。
-* 可能需要使用专属、自定义或行业特定的应用程序协议。
-
-## <a name="back-end-services"></a>后端服务 
-
-在 IoT 解决方案中，后端服务提供如下功能：
-
-* 接收大规模的来自设备的遥测数据，并确定如何处理和存储该数据。
-* 通过分析遥测数据为用户提供见解，不管是实时的还是事后的。
-* 从云向特定设备发送命令。 
-* 预配设备并控制哪些设备可以连接到基础结构。
-* 控制设备状态并监视设备活动。
-* 管理设备上安装的固件。
-
-例如，在输油站的远程监视解决方案中，云后端使用来自油泵的遥测数据来识别异常行为。 当后端服务识别到异常时，可以自动将一条命令发回给设备，以采取纠正措施。 此过程在设备和云之间产生一个自动反馈循环，大大提高了解决方案效率。
-
-## <a name="azure-iot-examples"></a>Azure IoT 示例
-
-有关演示组织如何使用 Azure IoT 的现实示例，请参阅 [Microsoft IoT 技术案例研究](https://microsoft.github.io/techcasestudies/#technology=IoT&sortBy=featured)。 
-
-有关 IoT 体系结构的深入介绍，请参阅 [Microsoft Azure IoT 参考体系结构](/azure/architecture/reference-architectures/iot)。
-
-## <a name="next-steps"></a>后续步骤
-
-如果需要一些使用过的实际商业用例和体系结构，请参阅 [Microsoft Azure IoT 技术案例研究](https://microsoft.github.io/techcasestudies/#technology=IoT&sortBy=featured)。
-
-如果需要一些可以通过 IoT DevKit 来试用的示例项目，请参阅 [IoT DevKit 项目目录](https://microsoft.github.io/azure-iot-developer-kit/docs/projects/)。 
-
-有关不同服务的更详细说明及其用法，请参阅 [Azure IoT 服务和技术](iot-services-and-technologies.md)。
+    :::image type="content" source="./media/cosmos-db-create-dbaccount/azure-cosmos-db-account-created-2.png" alt-text="Azure Cosmos DB 帐户页面":::
