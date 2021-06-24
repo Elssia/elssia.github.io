@@ -1,56 +1,145 @@
----
-title: include 文件
-description: include 文件
-services: cosmos-db
-author: SnehaGunda
-ms.author: sngun
-ms.service: cosmos-db
-ms.topic: include
-ms.date: 08/19/2020
-ms.custom: include file
-ms.openlocfilehash: efdd4a065e1eab55f5af420585a44754d42a43e9
-ms.sourcegitcommit: a43a59e44c14d349d597c3d2fd2bc779989c71d7
-ms.translationtype: HT
-ms.contentlocale: zh-CN
-ms.lasthandoff: 11/25/2020
-ms.locfileid: "96010333"
----
-1. 在 Azure 门户菜单或主页中，选择“创建资源” 。
+快速入门：生成 Java 应用以管理 Azure Cosmos DB SQL API 数据
+[!INCLUDEappliesto-sql-api]
 
-1. 在“新建”页面中搜索“Azure Cosmos DB”，然后选择它。 
+[!div class="op_single_selector"]
 
-1. 在“Azure Cosmos DB”页上，选择“创建”。
+.NET V3
+.NET V4
+Java SDK v4
+Spring Data v3
+Node.js
+Python
+Xamarin
+在本快速入门中，你将通过 Azure 门户并使用从 GitHub 克隆的 Java 应用来创建和管理 Azure Cosmos DB SQL API 帐户。 首先，请使用 Azure 门户创建 Azure Cosmos DB SQL API 帐户，使用 SQL Java SDK 创建 Java 应用，然后使用 Java 应用程序将资源添加到 Cosmos DB 帐户。 Azure Cosmos DB 是一种多模型数据库服务，你可以借助其全球分布和水平缩放功能快速创建和查询文档、表、键/值和图数据库。
 
-1. 在“创建 Azure Cosmos DB 帐户”页上，输入新 Azure Cosmos 帐户的基本设置。 
+[!IMPORTANT]
+本快速入门仅适用于 Azure Cosmos DB Java SDK v4。 请查看 Azure Cosmos DB Java SDK v4 发行说明、Maven 存储库、Azure Cosmos DB Java SDK v4 性能提示和 Azure Cosmos DB Java SDK v4 故障排除指南了解详细信息。 如果你当前使用的是早于 v4 的版本，请参阅迁移到 Azure Cosmos DB Java SDK v4 指南，获取升级到 v4 的相关帮助。
 
-    |设置|值|说明 |
-    |---|---|---|
-    |订阅|订阅名称|选择要用于此 Azure Cosmos 帐户的 Azure 订阅。 |
-    |资源组|资源组名称|选择一个资源组，或者选择“新建”，然后输入新资源组的唯一名称。 |
-    |帐户名|唯一的名称|输入标识此 Azure Cosmos 帐户的名称。 由于 documents.azure.com 将追加到所提供的名称以创建 URI，因此，请使用唯一的名称。<br><br>名称只能包含小写字母、数字和连字符 (-)。 它的长度必须介于 3-44 个字符之间。|
-    |API|要创建的帐户的类型|选择“Core (SQL)”，以便使用 SQL 语法创建文档数据库并进行查询。 <br><br>API 确定要创建的帐户的类型。 Azure Cosmos DB 提供五种 API：适用于文档数据的 Core (SQL) 和 MongoDB、适用于图形数据的 Gremlin、Azure 表和 Cassandra。 目前，你必须为每种 API 创建单独的帐户。 |
-    |容量模式|预配吞吐量或无服务器|选择“预配吞吐量”以在[预配吞吐量](../articles/cosmos-db/set-throughput.md)模式下创建帐户。 选择“无服务器”以在[无服务器](../articles/cosmos-db/serverless.md)模式下创建帐户。|
-    |应用免费层折扣|应用或不应用|使用 Azure Cosmos DB 免费层，你将在帐户中获得每秒的前 400 RU 免费的吞吐量和 5 GB 的免费存储。 了解[免费层](https://azure.microsoft.com/pricing/details/cosmos-db/)的详细信息。|
-    |位置|离用户最近的区域|选择用于托管 Azure Cosmos DB 帐户的地理位置。 使用离用户最近的位置，使他们能够以最快的速度访问数据。|
-    |帐户类型|生产或非生产|如果帐户将用于生产工作负荷，请选择“生产”。 如果帐户将用于非生产环境（例如开发、测试、QA 或过渡），请选择“非生产”。 这是一个 Azure 资源标记设置，用于调整门户体验，但不会影响基础 Azure Cosmos DB 帐户。 可以随时更改此值。|
+先决条件
+具有活动订阅的 Azure 帐户。 免费创建一个。 或者免费试用 Azure Cosmos DB 而无需 Azure 订阅。 你还可以使用 Azure Cosmos DB 模拟器以及 URI https://localhost:8081 和密钥 C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==。
+Java 开发工具包 (JDK) 8。 将 JAVA_HOME 环境变量指向其中安装了 JDK 的文件夹。
+Maven 二进制存档。 在 Ubuntu 上运行 apt-get install maven，以安装 Maven。
+Git。 在 Ubuntu 上运行 sudo apt-get install git，以安装 Git。
+介绍性说明
+Cosmos DB 帐户的结构。 不管使用 API 还是编程语言，都具有以下特点：一个 Cosmos DB 帐户包含零个或零个以上的数据库，一个数据库 (DB) 包含零个或零个以上的容器，一个容器包含零个或零个以上的项，如下图所示：
 
-    > [!NOTE]
-    > 每个 Azure 订阅最多可以有一个免费层 Azure Cosmos DB 帐户，并且你必须在创建帐户时选择加入使用。 如果看不到用于应用免费层折扣的选项，这意味着订阅中的另一个帐户已启用免费层。
-   
-    > [!NOTE]
-    > 如果选择“无服务器”作为“容量模式”，则以下选项不可用 ：
-    > - 应用免费层折扣
-    > - 异地冗余
-    > - 多区域写入
-    
-    :::image type="content" source="./media/cosmos-db-create-dbaccount/azure-cosmos-db-create-new-account-detail.png" alt-text="Azure Cosmos DB 的“新建帐户”页面":::
+:::image type="content" source="./media/account-databases-containers-items/cosmos-entities.png" alt-text="Azure Cosmos 帐户实体" border="false":::
 
-1. 选择“查看 + 创建”。 可以跳过“网络”和“标记”部分 。
+可在此处阅读有关数据库、容器和项的详细信息。 几个重要属性在容器级别定义，其中包括预配吞吐量和分区键。
 
-1. 检查帐户设置，然后选择“创建”。 创建帐户需要几分钟时间。 等待门户页显示“你的部署已完成”消息。 
+预配吞吐量以具有货币价格的请求单位 ( RU ) 度量，是帐户运营成本中重要的确定性因素。 可以按单容器粒度或单数据库粒度选择预配吞吐量，但通常首选容器级别吞吐量规范。 可在此处阅读有关吞吐量预配的详细信息。
 
-    :::image type="content" source="./media/cosmos-db-create-dbaccount/azure-cosmos-db-account-created.png" alt-text="Azure 门户“通知”窗格":::
+将项插入 Cosmos DB 容器时，数据库会添加更多的存储和计算来处理请求，以水平方式增长。 存储和计算容量添加到称为分区的离散单元中，你必须在文档中选择一个字段作为分区键，以便将每个文档映射到分区。 分区的管理方式是从分区键值的范围内为每个分区分配一个大致相等的切片；因此，建议选择相对随机或均匀分布的分区键。 否则，某些分区看到的请求数会多得多（热分区），而其他分区看到的请求数会少得多（冷分区），这是应该避免的。 可以在此处详细了解分区。
 
-1. 选择“转到资源”，转到 Azure Cosmos DB 帐户页。 
+创建数据库帐户
+在创建文档数据库之前，需通过 Azure Cosmos DB 创建 SQL API 帐户。
 
-    :::image type="content" source="./media/cosmos-db-create-dbaccount/azure-cosmos-db-account-created-2.png" alt-text="Azure Cosmos DB 帐户页面":::
+[!INCLUDE cosmos-db-create-dbaccount]
+
+添加容器
+[!INCLUDE cosmos-db-create-collection]
+
+
+添加示例数据
+[!INCLUDE cosmos-db-create-sql-api-add-sample-data]
+
+查询数据
+[!INCLUDE cosmos-db-create-sql-api-query-data]
+
+克隆示例应用程序
+现在，让我们转到如何使用代码上来。 接下来，克隆 GitHub 中的 SQL API 应用程序，设置连接字符串，并运行应用程序。 会看到以编程方式处理数据是多么容易。
+
+运行下列命令以克隆示例存储库。 此命令在计算机上创建示例应用程序的副本。
+
+git clone https://github.com/Azure-Samples/azure-cosmos-java-getting-started.git
+查看代码
+此步骤是可选的。 如果有意了解如何使用代码创建数据库资源，可以查看以下代码片段。 否则，可以跳到运行应用。
+
+同步 API
+使用同步 (sync) API 管理数据库资源
+CosmosClient 初始化。 CosmosClient 为 Azure Cosmos 数据库服务提供客户端逻辑表示形式。 此客户端用于对服务配置和执行请求。
+
+[!code-java]
+
+CosmosDatabase 的创建。
+
+[!code-java]
+
+CosmosContainer 的创建。
+
+[!code-java]
+
+使用 createItem 方法创建项。
+
+[!code-java]
+
+使用 readItem 方法执行点读取。
+
+[!code-java]
+
+使用 queryItems 方法对 JSON 执行 SQL 查询。
+
+[!code-java]
+
+异步 API
+使用异步 (async) API 管理数据库资源
+异步 API 调用立即返回，而不等待服务器的响应。 对于这种情况，以下代码片段演示了通过异步 API 完成上述所有管理任务时可用的正确设计模式。
+
+CosmosAsyncClient 初始化。 CosmosAsyncClient 为 Azure Cosmos 数据库服务提供客户端逻辑表示形式。 此客户端用于对服务配置和执行异步请求。
+
+[!code-java]
+
+CosmosAsyncDatabase 的创建。
+
+[!code-java]
+
+CosmosAsyncContainer 的创建。
+
+[!code-java]
+
+与同步 API 一样，项的创建是使用 createItem 方法完成的。 此示例演示如何通过订阅反应流（发出请求并输出通知）来有效地发出大量异步 createItem 请求。 由于此简单示例会一直运行到完成并终止，因此使用了 CountDownLatch 实例来确保程序在创建项期间不会终止。 适当的异步编程做法是不要阻止异步调用 - 在真实用例中，请求是从一个无限期执行的 main() 循环生成的，因此无需闩锁异步调用。
+
+[!code-java]
+
+与同步 API 一样，点读取是使用 readItem 方法执行的。
+
+[!code-java]
+
+与同步 API 一样，对 JSON 的 SQL 查询是使用 queryItems 方法执行的。
+
+[!code-java]
+
+运行应用
+现在返回到 Azure 门户，获取连接字符串信息，并使用终结点信息启动应用。 这样，应用程序就可以与托管的数据库进行通信。
+
+在 git 终端窗口中，通过 cd 转至示例代码文件夹。
+
+cd azure-cosmos-java-getting-started
+在 git 终端窗口中，使用以下命令安装所需的 Java 包。
+
+mvn package
+在 git 终端窗口中，使用以下命令启动 Java 应用程序（请将 SYNCASYNCMODE 替换为 sync 或 async，具体取决于要运行的示例代码；将 YOUR_COSMOS_DB_HOSTNAME 替换为门户中带引号的 URI 值，并将 YOUR_COSMOS_DB_MASTER_KEY 替换为门户中带引号的主密钥）
+
+mvn exec:java@SYNCASYNCMODE -DACCOUNT_HOST=YOUR_COSMOS_DB_HOSTNAME -DACCOUNT_KEY=YOUR_COSMOS_DB_MASTER_KEY
+此时，终端窗口显示通知，提示 FamilyDB 数据库已创建。
+
+该应用创建名为 AzureSampleFamilyDB 的数据库
+
+该应用创建名为 FamilyContainer 的容器
+
+该应用使用对象 ID 和分区键值（在本示例中为 lastName）执行点读取。
+
+该应用将查询项，以检索姓氏中包含 ('Andersen', 'Wakefield', 'Johnson') 的所有家庭
+
+应用不删除创建的资源。 切换回门户，以便在帐户中清理资源， 以免产生费用。
+
+在 Azure 门户中查看 SLA
+[!INCLUDE cosmosdb-tutorial-review-slas]
+
+清理资源
+[!INCLUDE cosmosdb-delete-resource-group]
+
+后续步骤
+在本快速入门中，你已了解了如何使用数据资源管理器创建 Azure Cosmos DB SQL API 帐户、文档数据库和容器，以及如何通过运行 Java 应用以编程方式执行同一操作。 现在可以将其他数据导入 Azure Cosmos DB 帐户了。
+
+[!div class="nextstepaction"] 将数据导入 Azure Cosmos DB
